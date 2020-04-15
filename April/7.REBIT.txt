@@ -1,0 +1,157 @@
+#include<bits/stdc++.h>
+#define ll long long int
+#define mod 998244353
+using namespace std;
+
+string a;
+ll power(ll a,ll b){
+ll x=1;
+while(b){
+if(b&1){
+x*=a;
+x%=mod;
+}
+a*=a;
+a%=mod;
+b>>=1;
+}
+return x;
+}
+string infixToPostfix(string s) 
+{ 
+    std::stack<char> st; 
+    st.push('N'); 
+    ll l = s.length(); 
+    string ns; 
+    for(ll i = 0; i < l; i++) 
+    {
+        if(s[i]=='#') 
+        ns+=s[i]; 
+        else if(s[i] == '(') 
+        st.push('('); 
+        else if(s[i] == ')') 
+        { 
+            while(st.top() != 'N' && st.top() != '(') 
+            { 
+                char c = st.top(); 
+                st.pop(); 
+               ns += c; 
+            } 
+            if(st.top() == '(') 
+            { 
+                char c = st.top(); 
+                st.pop(); 
+            } 
+        } 
+        else{ 
+            while(st.top() != 'N' && st.top()!='(' ) 
+            { 
+                char c = st.top(); 
+                st.pop(); 
+                ns += c; 
+            } 
+            st.push(s[i]); 
+        } 
+  
+    } 
+    while(st.top() != 'N') 
+    { 
+        char c = st.top(); 
+        st.pop(); 
+        ns += c; 
+    } 
+    //cout<<ns<<endl;
+    return ns;
+}
+void solve(){
+	cin>>a;
+	vector<ll> x1,x2,x3,x4;
+	string x=infixToPostfix(a);
+	ll n = x.length();
+	ll cnt=1;
+	for(ll i=0;i<n;i++){
+		if(x[i]=='#'){
+			x1.push_back(1);
+			x2.push_back(1);
+			x3.push_back(1);
+			x4.push_back(1);
+			cnt=(cnt*4)%mod;
+			cnt=cnt%mod;
+		}
+	}
+	ll pos=0;
+	vector<ll>::iterator it1 = x1.begin();
+	vector<ll>::iterator it2 = x2.begin();
+	vector<ll>::iterator it3 = x3.begin();
+	vector<ll>::iterator it4 = x4.begin();
+	for(ll i=1;i<n;i++){
+		if(x[i]=='&'){
+		    //cout<<"&"<<endl;
+			ll a1=x1[pos-1],a2=x2[pos-1],a3=x3[pos-1],a4=x4[pos-1];
+			ll b1=x1[pos],b2=x2[pos],b3=x3[pos],b4=x4[pos];
+			x1.erase(it1+pos);x3.erase(it3+pos);x2.erase(it2+pos);x4.erase(it4+pos);
+			pos--;
+			x1[pos]=(((a1*((b1+b2+b3+b4)%mod))%mod)+((b1*((a2+a3+a4)%mod))%mod)+((a3*b4)%mod)+((a4*b3)%mod))%mod;
+			x2[pos]=((a2*b2)%mod)%mod;
+			x3[pos]=(((a3*b2)%mod)+((a3*b3)%mod)+((a2*b3)%mod))%mod;
+			x4[pos]=(((a4*b2)%mod)+((a4*b4)%mod)+((a2*b4)%mod))%mod;
+		}
+		else if(x[i]=='^'){
+		    //cout<<"^"<<endl;
+			ll a1=x1[pos-1],a2=x2[pos-1],a3=x3[pos-1],a4=x4[pos-1];
+			ll b1=x1[pos],b2=x2[pos],b3=x3[pos],b4=x4[pos];
+			x1.erase(it1+pos);x3.erase(it3+pos);x2.erase(it2+pos);x4.erase(it4+pos);
+			pos--;
+			x1[pos]=(((a1*b1)%mod)+((a2*b2)%mod)+((a3*b3)%mod)+((a4*b4)%mod))%mod;
+			x2[pos]=(((a1*b2)%mod)+((a2*b1)%mod)+((a3*b4)%mod)+((a4*b3)%mod))%mod;
+			x3[pos]=(((a3*b1)%mod)+((a1*b3)%mod)+((a3*b2)%mod)+((a2*b3)%mod))%mod;
+			x4[pos]=(((a4*b1)%mod)+((a1*b4)%mod)+((a4*b2)%mod)+((a2*b4)%mod))%mod;
+		}
+		else if(x[i]=='|'){
+		    //cout<<"|"<<endl;
+			ll a1=x1[pos-1],a2=x2[pos-1],a3=x3[pos-1],a4=x4[pos-1];
+			ll b1=x1[pos],b2=x2[pos],b3=x3[pos],b4=x4[pos];
+			
+			x1.erase(it1+pos);x3.erase(it3+pos);x2.erase(it2+pos);x4.erase(it4+pos);
+			pos--;
+			x2[pos]=(((a2*((b1+b2+b3+b4)%mod))%mod)+((b2*((a1+a3+a4)%mod))%mod)+((a3*b4)%mod)+((a4*b3)%mod))%mod;
+			x1[pos]=((a1*b1)%mod)%mod;
+			x3[pos]=(((a3*b1)%mod)+((a3*b3)%mod)+((a1*b3)%mod))%mod;
+			x4[pos]=(((a4*b1)%mod)+((a4*b4)%mod)+((a1*b4)%mod))%mod;
+		}
+		else
+		{
+			pos++;
+		}
+		//cout<<x1[pos]<<" "<<x2[pos]<<" "<<x3[pos]<<" "<<x4[pos]<<endl;
+		//cout<<pos<<endl;
+	}
+    //x1[0]=(x1[0]*(((mod-1)*(mod-1)/cnt)));
+	//x2[0]=(x2[0]*(((mod-1)*(mod-1)/cnt)));
+	//x3[0]=(x3[0]*(((mod-1)*(mod-1)/cnt)));
+	//x4[0]=(x4[0]*(((mod-1)*(mod-1)/cnt)));
+	cnt=power(cnt,mod-2)%mod;
+	//cout<<x1[0]<<" "<<x2[0]<<" "<<x3[0]<<" "<<x4[0]<<endl;
+	cout<<(x1[0]*cnt)%mod<<" "<<(x2[0]*cnt)%mod<<" "<<(x3[0]*cnt)%mod<<" "<<(x4[0]*cnt)%mod<<endl;
+}
+int main(){
+	//ios::sync_with_stdio(0);
+	//cin.tie(0);
+	int t;
+	cin>>t;
+	for(int q=1;q<=t;q++){	
+		//cout<<"Case #"<<q<<": ";
+		solve();
+	}
+}
+/*
+8
+#
+(#&#)
+(#|#)
+(#^#)
+((#&#)^#)
+((#&#)&#)
+((#&#)|#)
+((#&#)|(#&#))
+*/

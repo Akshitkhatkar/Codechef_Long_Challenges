@@ -1,0 +1,46 @@
+#include<bits/stdc++.h>
+#define ll long long int
+using namespace std;
+
+int n;
+void solve(){
+	scanf("%d",&n);
+	int i=1;
+	if(n==1){
+		cout<<"1\n";
+	}
+	else{
+		cout<< n/2<<"\n";
+	}
+	if(n/3==0){
+		cout<<n<<" ";
+		for(;i<=n;i++){
+			cout<<i<<" ";
+		}
+		cout<<"\n";
+	}
+	else
+	{
+		cout<<"3 1 2 3";
+		cout<<"\n";
+		for(i=4;i<=n;i+=2){
+			if(n==i){
+		    	cout<<"1 "<<i<<"\n";
+		    	break;
+		    }
+			cout<<"2 ";
+			cout<<i<<" "<<i+1<<"\n";
+		}
+
+	}
+}
+int main(){
+	//ios::sync_with_stdio(0);
+	//cin.tie(0);
+	int t;
+	cin>>t;
+	for(int q=1;q<=t;q++){		
+		//cout<<"Case #"<<q<<": ";
+		solve();
+	}
+}

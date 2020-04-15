@@ -1,0 +1,58 @@
+	#include<bits/stdc++.h>
+	#define ll long long int
+	#define mod 1000000007
+	using namespace std;
+	
+	ll x,k;
+int primeFactors(int n)  
+{  
+	int cnt=0;
+    // Print the number of 2s that divide n  
+    while (n % 2 == 0)  
+    {  
+		cnt++;
+        n = n/2;  
+    }  
+  
+    // n must be odd at this point. So we can skip  
+    // one element (Note i = i +2)  
+    for (int i = 3; i <= sqrt(n); i = i + 2)  
+    {  
+        // While i divides n, print i and divide n  
+        while (n % i == 0)  
+        {  
+            cnt++;
+            n = n/i;  
+        }
+    }  
+    if (n > 2)  
+        cnt++;
+		
+	return cnt;	  
+}
+	void solve(){
+		cin>>x>>k;
+		if(k>30 || pow(2,k)>x)
+		{
+			cout<<"0"<<endl;
+			return;
+		}
+		int cnt=primeFactors(x);
+		if(cnt>=k){
+			cout<<"1"<<endl;
+		}
+		else
+		{
+			cout<<"0"<<endl;
+		}
+	}
+	int main(){
+		ios::sync_with_stdio(0);
+		cin.tie(0);
+		int t;
+		cin>>t;
+		for(int q=1;q<=t;q++){		
+			//cout<<"Case #"<<q<<": ";
+			solve();
+		}
+	}

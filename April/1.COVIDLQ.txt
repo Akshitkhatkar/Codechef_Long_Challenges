@@ -1,0 +1,42 @@
+#include<bits/stdc++.h>
+#define ll long long int
+#define mod 1000000007
+using namespace std;
+
+int n,a[100005];
+
+void solve(){
+	cin>>n;
+	for(int i=0;i<n;i++){
+		cin>>a[i];
+	}
+	int flag=0;
+	for(int i=0;i<n;i++){
+		if(a[i]==1){
+			for(int j=1;j<6 && i+j<n;j++){
+				if(a[i+j]==1)
+				flag=1;
+			}
+		}
+		if(flag==1){
+			break;
+		}
+	}
+	if(flag==1){
+		cout<<"NO"<<endl;
+	}
+	else
+	{
+		cout<<"YES"<<endl;
+	}
+}
+int main(){
+	ios::sync_with_stdio(0);
+	cin.tie(0);
+	int t;
+	cin>>t;
+	for(int q=1;q<=t;q++){		
+		//cout<<"Case #"<<q<<": ";
+		solve();
+	}
+}
